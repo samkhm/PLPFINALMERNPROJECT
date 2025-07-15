@@ -10,3 +10,5 @@ router.get("/me", protect, getMyRoom);
 router.put("/:id", protect, authorize(["admin"]), updateRoom);
 router.put("/updateBookedRoom/:id", protect, updateBookedRoom);
 router.delete("/:id", protect, authorize(["admin"]), deleteRooms);
+
+module.exports = router;
