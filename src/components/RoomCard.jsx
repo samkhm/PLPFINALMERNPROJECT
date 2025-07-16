@@ -1,7 +1,6 @@
 import { Card, CardContent, CardFooter, CardHeader, CardTitle} from "@/components/ui/card";
 import { CheckCircleIcon, TrashIcon } from "@heroicons/react";
 import { Button } from "@/components/ui/button";
-import { Label } from "@radix-ui/react-dropdown-menu";
 
 export default function RoomCard(room, onBook, onPay, onDelete){
     return(
