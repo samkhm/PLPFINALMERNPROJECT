@@ -10,6 +10,7 @@ import { Receipt } from "lucide-react";
 export default function Dashboard(){
     const [rooms, setRooms] = useState([]);
     const [openSidebarToggle, setOpenSidebareToggle] = useState(false);
+    const [loading, setLoading] = useState(true);
 
     const loadRooms = async () =>{
         const res = await API.get("/rooms/me");
@@ -27,17 +28,16 @@ export default function Dashboard(){
 
     return(
         <Router>
-            <div className="flex flex-col h-screen">
-                <Navbar />
-                <div className="flex flex-1">
-                    <Sidebar />
-                    <main className="flex-1 bg- p-5">
+            <div className="grid grid-rows-[auto_1fr] grid-cols-[16rem_1fr] h-screen">
+                <Navbar />                
+                <Sidebar className="row-start-2"/>
+                    <main className="bg-white p-6 row-start-2 col-start-2">
                         <Routes to="/" element={<Home />} />
                         <Route to="/rooms" element={<Rooms />}/>
                         <Route to="/receipts" element={<Receipts />} />
                     </main>
 
-                </div>
+                
             </div>
         </Router>
 
