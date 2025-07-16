@@ -22,7 +22,7 @@ export default function Signup() {
     if (!firstName.trim() || !lastName.trim() || !email.trim() || !phone.trim() || !password.trim()) return alert("All fields required");
     setLoading(true);
     try {
-      const res = await API.post("/auth/signupp", { firstName, lastName, email, phone, password });
+      const res = await API.post("/auth/signup", { firstName, lastName, email, phone, password });
       localStorage.setItem("token", res.data.token);
       toast("Registered successfully");
       navigate("/dashboard");
