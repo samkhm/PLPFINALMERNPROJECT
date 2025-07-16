@@ -16,7 +16,7 @@ try {
     const user = await User.create({ firstName, lastName, email,
         phone, password: hashed});
 
-    const token = jwt.sign({ id: user._id, role: user.role, email:user.email}, process.env.JWT_SECRET, {
+    const token = jwt.sign({ id: user._id, role: user.role, email:user.email, firstName: user.firstName}, process.env.JWT_SECRET, {
         expiresIn: '5h'
     });
     res.json({ token });
@@ -27,7 +27,7 @@ try {
 }
 };
 
-exports.login = async (res, req) =>{
+exports.login = async (req, res) =>{
     try {
         const { email, password} = req.body;
 
@@ -37,7 +37,7 @@ exports.login = async (res, req) =>{
         const passMatch = await bcrypt.compare(password, user.password);
         if(!passMatch) return res.status(401).json({ message: "Incorrect password"});
 
-        const token = jwt.sign({ id: user._id, role: user.role, email:user.email}, process.env.JWT_SECRET, {
+        const token = jwt.sign({ id: user._id, role: user.role, email: user.email, firstName: user.firstName}, process.env.JWT_SECRET, {
             expiresIn: '5h'
         });
 
