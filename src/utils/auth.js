@@ -36,3 +36,7 @@ export const getEmail = () =>{
     return user?.email || null;
 };
 
+export const getFirstName = () =>{
+    const user = getUserFromToken();
+    return user?.firstName || null;
+};

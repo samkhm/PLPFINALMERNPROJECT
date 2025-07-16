@@ -1,5 +1,5 @@
 import { Card, CardContent, CardFooter, CardHeader, CardTitle} from "@/components/ui/card";
-import { CheckCircleIcon, TrashIcon } from "@heroicons/react";
+import { TrashIcon } from "@heroicons/react/24/solid";
 import { Button } from "@/components/ui/button";
 
 export default function RoomCard(room, onBook, onPay, onDelete){
