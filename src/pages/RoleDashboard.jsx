@@ -1,6 +1,6 @@
 import { getUserRole } from "../utils/auth";
-import  AdminDashboard from "./AdminDashboard";
-import UserDashboard from "./Dashboard";
+// import  AdminDashboard from "./AdminDashboard";
+// import UserDashboard from "./Dashboard";
 import { Navigate } from "react-router-dom";
 
 export default function RoleDashboard(){

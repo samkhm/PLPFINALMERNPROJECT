@@ -4,7 +4,7 @@ import { Button } from "@/components/ui/button";
 import { DropdownMenu, DropdownMenuContent, 
     DropdownMenuItem, DropdownMenuTrigger } from "@/components/ui/dropdown-menu";
 import { UserCircleIcon } from "@heroicons/react";
-import { getUserRole, getUserFromToken, firstName } from "@/utils/auth";
+import { getUserRole, getUserFromToken} from "@/utils/auth";
 
 export default function Navbar(){
     const userRole = getUserRole();
