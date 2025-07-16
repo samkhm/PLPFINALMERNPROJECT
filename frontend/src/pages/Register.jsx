@@ -29,7 +29,7 @@ export default function Signup() {
 
     } catch (err) {
       alert(err.response?.data?.message || "Signup failed");
-      console.log('failed to sign up', err);
+      
     } finally {
       setLoading(false);
     }
