@@ -2,7 +2,7 @@ import Home from "@/components/Home";
 import Rooms from "./Rooms";
 import Receipts from "./Receipts";
 
-export default function MainContent({ activeSection, loading, rooms, createRoom, deleteRoom, onApprove }){
+export default function MainContent({ activeSection, loading, rooms, createRoom, deleteRoom, onApprove, receipts }){
     let content;
     switch(activeSection){
         case 'home':
@@ -12,7 +12,7 @@ export default function MainContent({ activeSection, loading, rooms, createRoom,
             content = <div className="dark:bg-gray-300"> <Rooms loading={loading} rooms={rooms} createRoom={createRoom} deleteRoom={deleteRoom}/> </div>
             break;
         case 'receipts':
-            content = <div className="dark:bg-gray-300"> <Receipts loading={loading}/> </div>
+            content = <div className="dark:bg-gray-300"> <Receipts loading={loading} receipts={receipts}/> </div>
             break;
         
         default:

@@ -1,19 +1,20 @@
 import { HomeModernIcon, HomeIcon } from "@heroicons/react/24/solid";
 import { getUserRole } from "@/utils/auth";
-
+import { Receipt } from "lucide-react";
+import { BedIcon } from "lucide-react";
 export default function Sidebar({ activeSection, setActiveSection }) {
     const userRole = getUserRole();
 
     const userMenuItems = [
         { name: "Home", icon: <HomeModernIcon className="h-5 w-5" />, key: 'home' },
-        { name: "Rooms", icon: <HomeIcon className="h-5 w-5" />, key: 'rooms' },
-        { name: "Receipts", icon: <HomeIcon className="h-5 w-5" />, key: 'receipts' }
+        { name: "Rooms", icon: <BedIcon className="h-5 w-5" />, key: 'rooms' },
+        { name: "Receipts", icon: <Receipt className="h-5 w-5" />, key: 'receipts' }
     ];
 
     const adminMenuItems = [
         { name: "Home", icon: <HomeModernIcon className="h-5 w-5" />, key: 'home' },
-        { name: "Rooms", icon: <HomeIcon className="h-5 w-5" />, key: 'rooms' },
-        { name: "Receipts", icon: <HomeIcon className="h-5 w-5"  />, key: 'receipts' }
+        { name: "Rooms", icon: <BedIcon className="h-5 w-5" />, key: 'rooms' },
+        { name: "Receipts", icon: <Receipt className="h-5 w-5"  />, key: 'receipts' }
     ];
 
     const menuItems = userRole === 'user' ? userMenuItems : adminMenuItems;

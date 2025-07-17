@@ -18,7 +18,7 @@ const loadRooms = async () =>{
     try {
     const res = await API.get("/rooms/all");
     setRooms(res.data);
-    console.log("res.data", res.data);
+    // console.log("res.data", res.data);
             
     } catch (error) {
         toast.error("Failed to load rooms");

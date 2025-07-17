@@ -1,5 +1,5 @@
 import ReceiptCard from "./ReceiptCard";
-export default function Receipts({loading, receipts, onDownload}){
+export default function Receipts({loading, receipts=[]}){
 
          if (loading){
         return(

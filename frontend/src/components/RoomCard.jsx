@@ -17,10 +17,13 @@ export default function RoomCard({room, onBook, onPay, onDelete}){
              <CardContent>
                 <p className="text-md font-semibold">Amount: {room.price}</p>
              </CardContent>
+             <CardContent>
+                <p className="text-md font-semibold">Location: {room.location}</p>
+             </CardContent>
 
              <CardFooter className="flex justify-between gap-2">
-                <Button className={`bg-red-400 ${room.booked ? "bg-yellow-200" : ""}`}>{room.status}</Button>
-                <Button className={`bg-red-400 ${room.booked ? "bg-yellow-200" : ""}`}>Payment</Button>
+                <Button className={`bg-red-400 ${room.booked ? "bg-yellow-200" : ""}`}>{room.booked ? "Booked" : "Book"}</Button>
+                <Button className={`bg-red-400 ${room.booked ? "bg-yellow-200" : ""}`}>{room.payment ? "Payed" : "Pay"}</Button>
                 <Button
                   size ="icon"
                   variant = "destructive"
