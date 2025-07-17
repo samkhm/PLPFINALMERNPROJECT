@@ -1,22 +1,26 @@
-export default function MainContent({ activeSection }){
+import Home from "@/components/Home";
+import Rooms from "./Rooms";
+import Receipts from "./Receipts";
+export default function MainContent({ activeSection, loading}){
     let content;
     switch(activeSection){
         case 'home':
-            content = <div>Welcome to dashboard</div>
+            content = <div className="dark:bg-gray-300"> <Home loading={loading}/> </div>
             break;
         case 'rooms':
-            content = <div>book your rooms</div>
+            content = <div className="dark:bg-gray-300"><Rooms loading={loading}/></div>
             break;
         case 'receipts':
-            content = <div>Your receipts</div>
+            content = <div className="dark:bg-gray-300"><Receipts loading={loading}/></div>
             break;
+        
         default:
             content = <div>Select a section from the side bar</div>
     }
 
     return(
         <div className="p-6 bg-gray-100 w-full">
-            <h1 className="text-xl font-semibold mb-4 capitalize">{activeSection}</h1>
+            <h1 className="text-xl font-semibold mb-4 capitalize dark:text-black">{activeSection}</h1>
             <div>{content}</div>
         </div>
     );

@@ -5,21 +5,21 @@ export default function Sidebar({ activeSection, setActiveSection }) {
     const userRole = getUserRole();
 
     const userMenuItems = [
-        { name: "Home", icon: <HomeModernIcon />, key: 'home' },
-        { name: "Rooms", icon: <HomeIcon />, key: 'rooms' },
-        { name: "Receipts", icon: <HomeIcon />, key: 'receipt' }
+        { name: "Home", icon: <HomeModernIcon className="h-5 w-5" />, key: 'home' },
+        { name: "Rooms", icon: <HomeIcon className="h-5 w-5" />, key: 'rooms' },
+        { name: "Receipts", icon: <HomeIcon className="h-5 w-5" />, key: 'receipts' }
     ];
 
     const adminMenuItems = [
-        { name: "Home", icon: <HomeModernIcon />, key: 'home' },
-        { name: "Rooms", icon: <HomeIcon />, key: 'rooms' },
-        { name: "Receipts", icon: <HomeIcon />, key: 'receipt' }
+        { name: "Home", icon: <HomeModernIcon className="h-5 w-5" />, key: 'home' },
+        { name: "Rooms", icon: <HomeIcon className="h-5 w-5" />, key: 'rooms' },
+        { name: "Receipts", icon: <HomeIcon className="h-5 w-5"  />, key: 'receipts' }
     ];
 
     const menuItems = userRole === 'user' ? userMenuItems : adminMenuItems;
 
     return (
-        <aside className="bg-gray-900 text-white p-4 space-y-4 w-full">
+        <aside className="bg-gray-900 text-white p-4 space-y-4 w-full sm:w-64">
             <h2 className="text-2xl font-bold mb-6">Menu</h2>
             {menuItems.map(i => (
                 <button

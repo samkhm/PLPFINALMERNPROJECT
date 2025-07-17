@@ -1,25 +1,23 @@
 import { useEffect, useState } from "react";
 import API from "@/services/api";
-// import RoomCard from "@/components/RoomCard";
 import Navbar from "@/components/Navbar";
 import { toast } from "sonner";
 import Sidebar from "@/components/Sidebar";
-import MainContent from "@components/MainContent"
-// import { Sidebar } from "lucide-react";
-// import { Receipt } from "lucide-react";
-// import Rooms from "@/components/Rooms";
-// import Home from "@/components/Home";
+import MainContent from "@/components/MainContent";
 
 export default function Dashboard(){
-const [activeSection, setActiveSection] = useState('home')
+const [activeSection, setActiveSection] = useState('home');
+const [loading, setLoading] = useState(true);
 const [openSidebar, setSidebar] = useState(false);
+
+
 
     return(
         <div>
             <Navbar />
-            <div className="grid grid-cols-1 h-screen">
-                <Sidebar activeSecction ={activeSection} setActiveSection={setActiveSection} />
-                <MainContent activeSecction={activeSection} />
+            <div className="grid grid-cols-1 sm:grid-cols-[auto_1fr] h-screen">
+                <Sidebar activeSection ={activeSection} setActiveSection={setActiveSection} />
+                <MainContent activeSection={activeSection}  loading={loading}/>
 
             </div>
         </div>
