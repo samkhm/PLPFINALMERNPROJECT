@@ -1,42 +1,25 @@
 import { useEffect, useState } from "react";
-import { BrowserRouter as Router, Routes, Route, Link } from 'react-router-dom';
 import API from "@/services/api";
-// import RoomCard from "@/components/RoomCard";
 import Navbar from "@/components/Navbar";
 import { toast } from "sonner";
-// import { Sidebar } from "lucide-react";
-// import { Receipt } from "lucide-react";
-// import Rooms from "@/components/Rooms";
-// import Home from "@/components/Home";
+import Sidebar from "@/components/Sidebar";
+import AdminMainContent from "@/components/AdminMainContent";
 
-export default function AdminDashboard(){
-    const [rooms, setRooms] = useState([]);
-    const [openSidebarToggle, setOpenSidebareToggle] = useState(false);
-    const [loading, setLoading] = useState(true);
+export default function Dashboard(){
+const [activeSection, setActiveSection] = useState('home');
+const [loading, setLoading] = useState(true);
+const [openSidebar, setSidebar] = useState(false);
 
-    const loadRooms = async () =>{
-        const res = await API.get("/rooms/me");
-        setRooms(res.data);
-    };
 
-    useEffect(() =>{
-        loadRooms();
-    }, []);
-
-    const openSidebar = () =>{
-        setOpenSidebareToggle(!openSidebarToggle);
-    };
 
     return(
         <div>
             <Navbar />
+            <div className="grid grid-cols-1 sm:grid-cols-[auto_1fr] h-screen">
+                <Sidebar activeSection ={activeSection} setActiveSection={setActiveSection} />
+                <AdminMainContent activeSection={activeSection}  loading={loading}/>
+
+            </div>
         </div>
     )
-    
-    
-
-   
-
-
-
 }
