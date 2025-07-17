@@ -4,8 +4,8 @@ const { createRoom, getAllrooms, getAllBookedRooms, getMyRoom, updateRoom, updat
 const router = express.Router();
 
 router.post("/", protect, authorize(["admin"]), createRoom);
-router.get("/getAllrooms", protect, getAllrooms);
-router.get("/getAllbookedRooms", protect, authorize(["admin"]), getAllBookedRooms);
+router.get("/all", protect, getAllrooms);
+router.get("/allbookedRooms", protect, authorize(["admin"]), getAllBookedRooms);
 router.get("/me", protect, getMyRoom);
 router.put("/:id", protect, authorize(["admin"]), updateRoom);
 router.put("/updateBookedRoom/:id", protect, updateBookedRoom);

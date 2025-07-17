@@ -23,7 +23,7 @@ exports.createRoom = async (req, res) => {
 
 //api/rooms/getAllrooms
 exports.getAllrooms = async (req, res) =>{
-    const rooms = await Room.find({ owner: req.user.id});
+    const rooms = await Room.find({owner: req.user.id});
     res.json(rooms);
 };
 

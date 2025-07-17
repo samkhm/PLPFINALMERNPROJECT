@@ -2,7 +2,7 @@ import { Card, CardContent, CardFooter, CardHeader, CardTitle} from "@/component
 import { TrashIcon } from "@heroicons/react/24/solid";
 import { Button } from "@/components/ui/button";
 
-export default function RoomCard(room, onBook, onPay, deleteRoom){
+export default function RoomCard({room, onBook, onPay, onDelete}){
     return(
         <Card className={`relative animation-fade ${
             room.booked ? "bg-green-300" : ""
@@ -24,7 +24,7 @@ export default function RoomCard(room, onBook, onPay, deleteRoom){
                 <Button
                   size ="icon"
                   variant = "destructive"
-                  onClick={() => deleteRoom(room._id)}
+                  onClick={() => onDelete(room._id)}
                 >
                     <TrashIcon className="h-5 w-5"/>
                 </Button>
