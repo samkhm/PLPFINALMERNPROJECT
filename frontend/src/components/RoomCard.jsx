@@ -1,8 +1,10 @@
 import { Card, CardContent, CardFooter, CardHeader, CardTitle} from "@/components/ui/card";
 import { TrashIcon } from "@heroicons/react/24/solid";
 import { Button } from "@/components/ui/button";
+import { getUserRole } from "@/utils/auth";
+export default function RoomCard({room, onBook, onPay, deleteRoom}){
 
-export default function RoomCard({room, onBook, onPay, onDelete}){
+    const user = getUserRole();
     return(
         <Card className={`relative animation-fade ${
             room.booked ? "bg-green-100" : ""
@@ -24,13 +26,21 @@ export default function RoomCard({room, onBook, onPay, onDelete}){
              <CardFooter className="flex justify-between gap-2 flex-wrap">
                 <Button className={`bg-gray-400 ${room.booked ? "bg-green-200" : ""}`}>{room.booked ? "Booked" : "Book Now"}</Button>
                 <Button className={`bg-gray-400 ${room.booked ? "bg-green-200" : ""}`}>{room.payment ? "Payed" : "Pay Now"}</Button>
-                <Button
+            
+              { user === "admin" && (
+
+                 <Button
                   size ="icon"
                   variant = "destructive"
-                  onClick={() => onDelete(room._id)}
-                >
-                    <TrashIcon className="h-5 w-5"/>
-                </Button>
+                  onClick={() => deleteRoom(room._id)}
+                > 
+                 <TrashIcon className="h-5 w-5"/>
+                </Button>              
+            
+              )}
+
+                   
+
              </CardFooter>
 
 

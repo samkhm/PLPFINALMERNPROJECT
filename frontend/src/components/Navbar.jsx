@@ -18,7 +18,9 @@ export default function Navbar(){
 
     return(
         <nav className="glass sticky top-0 z-50 border-b bg-gray-900 text-white border-zinc-200 dark:border-zinc-700 px-4 py-2 flex items-center justify-between">
-            <Link to="/dashboard" className="font-bold text-lg">Dashboard</Link>
+            { userRole === "admin" ? (<Link to="/dashboard" className="font-bold text-lg"> Admin Dashboard</Link>) : (<Link to="/dashboard" className="font-bold text-lg">Dashboard</Link>) }
+            
+            
             <div className="flex items-centre gap-2">
  
                 <ThemeToggle />
