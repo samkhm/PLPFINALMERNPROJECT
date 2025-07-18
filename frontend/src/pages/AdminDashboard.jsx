@@ -51,7 +51,7 @@ const createRoom = async (payload) =>{
 const approveRoom = async (id) =>{
     try {
         const room = rooms.find(r => r._id === id);
-        const res = await API.put(`/room/${id}`, {available: !room.available});
+        const res = await API.put(`/rooms/${id}`, {available: !room.available});
         setRooms(prev => prev.map(r => (r._id === id ? res.data : r)));
         toast("Room approved");
         

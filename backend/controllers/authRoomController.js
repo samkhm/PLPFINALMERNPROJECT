@@ -67,10 +67,6 @@ exports.updateRoom = async (req, res) =>{
             return res.status(404).json({ message: "No room found"});
         };
    
-        if(room.owner.toString() !== req.user.id && req.user.role !== "admin"){
-            return res.status(401).json({ message : "You can't update"});
-        };
-
         const updatedRoom = await Room.findByIdAndUpdate(
             req.params.id,
             req.body,
@@ -93,10 +89,6 @@ exports.updateBookedRoom = async (req, res) =>{
         
         if(!room){
             return res.status(404).json({ message: "Room not found"});
-        };
-     
-        if(room.owner.toString() !== req.user.id && req.user.role !== "admin"){
-            return res.status(404).json({ message: "You can't update the room"});
         };
 
         const updatedbookedroom = await Subject.findByIdAndUpdate(

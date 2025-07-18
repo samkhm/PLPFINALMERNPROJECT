@@ -28,7 +28,20 @@ useEffect(() =>{
     loadRooms();
 }, []);
 
-
+const bookRoom = async (id) =>{
+    try {
+        const room = rooms.find(r => r._id === id);
+        const res = await API.put(`/rooms/${id}`, {booked: !room.booked});        
+        setRooms(prev => prev.map(r => (r._id === id ? res.data : r)));
+        toast("Room booked");
+        
+        
+    } catch (error) {
+        console.log("Booking error", error);
+        toast.error("Failed to book");
+        
+    }
+}
 
 
     return(
@@ -36,7 +49,7 @@ useEffect(() =>{
             <Navbar />
             <div className="grid grid-cols-1 sm:grid-cols-[auto_1fr] h-screen">
                 <Sidebar activeSection ={activeSection} setActiveSection={setActiveSection} />
-                <MainContent activeSection={activeSection}  loading={loading} rooms={rooms}/>
+                <MainContent activeSection={activeSection}  loading={loading} rooms={rooms} bookRoom={bookRoom}/>
 
             </div>
         </div>

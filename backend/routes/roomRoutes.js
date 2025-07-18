@@ -7,7 +7,7 @@ router.post("/", protect, authorize(["admin"]), createRoom);
 router.get("/all", protect, getAllrooms);
 router.get("/allbookedRooms", protect, authorize(["admin"]), getAllBookedRooms);
 router.get("/me", protect, getMyRoom);
-router.put("/:id", protect, authorize(["admin"]), updateRoom);
+router.put("/:id", protect, updateRoom);
 router.put("/updateBookedRoom/:id", protect, updateBookedRoom);
 router.delete("/:id", protect, authorize(["admin"]), deleteRooms);
 
