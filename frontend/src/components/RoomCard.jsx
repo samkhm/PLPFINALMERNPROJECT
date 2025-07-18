@@ -5,7 +5,7 @@ import { Button } from "@/components/ui/button";
 export default function RoomCard({room, onBook, onPay, onDelete}){
     return(
         <Card className={`relative animation-fade ${
-            room.booked ? "bg-green-300" : ""
+            room.booked ? "bg-green-100" : ""
         }`}>
 
             <CardHeader>
@@ -18,12 +18,12 @@ export default function RoomCard({room, onBook, onPay, onDelete}){
                 <p className="text-md font-semibold">Amount: {room.price}</p>
              </CardContent>
              <CardContent>
-                <p className="text-md font-semibold">Location: {room.location}</p>
+                <p className="text-md font-semibold">Location: {room?.location?.charAt(0).toUpperCase() + room?.location?.slice(1)}</p>
              </CardContent>
 
-             <CardFooter className="flex justify-between gap-2">
-                <Button className={`bg-red-400 ${room.booked ? "bg-yellow-200" : ""}`}>{room.booked ? "Booked" : "Book"}</Button>
-                <Button className={`bg-red-400 ${room.booked ? "bg-yellow-200" : ""}`}>{room.payment ? "Payed" : "Pay"}</Button>
+             <CardFooter className="flex justify-between gap-2 flex-wrap">
+                <Button className={`bg-gray-400 ${room.booked ? "bg-green-200" : ""}`}>{room.booked ? "Booked" : "Book Now"}</Button>
+                <Button className={`bg-gray-400 ${room.booked ? "bg-green-200" : ""}`}>{room.payment ? "Payed" : "Pay Now"}</Button>
                 <Button
                   size ="icon"
                   variant = "destructive"
