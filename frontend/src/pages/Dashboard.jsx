@@ -9,6 +9,25 @@ export default function Dashboard(){
 const [activeSection, setActiveSection] = useState('home');
 const [loading, setLoading] = useState(true);
 const [openSidebar, setSidebar] = useState(false);
+const [rooms, setRooms] = useState([]);
+
+const loadRooms = async () =>{
+    try {
+        const res = await API.get("/rooms/all");
+        setRooms(res.data);
+        
+    } catch (error) {
+        toast.error("Failed to load rooms")
+        
+    }finally{
+        setLoading(false);
+    }
+};
+
+useEffect(() =>{
+    loadRooms();
+}, []);
+
 
 
 
@@ -17,7 +36,7 @@ const [openSidebar, setSidebar] = useState(false);
             <Navbar />
             <div className="grid grid-cols-1 sm:grid-cols-[auto_1fr] h-screen">
                 <Sidebar activeSection ={activeSection} setActiveSection={setActiveSection} />
-                <MainContent activeSection={activeSection}  loading={loading}/>
+                <MainContent activeSection={activeSection}  loading={loading} rooms={rooms}/>
 
             </div>
         </div>
