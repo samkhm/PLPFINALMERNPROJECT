@@ -24,7 +24,7 @@ export default function RoomCard({room, onBook, onPay, deleteRoom, bookRoom}){
              </CardContent>
 
              <CardFooter className="flex justify-between gap-2 flex-wrap">
-                <Button onClick={() => bookRoom(room._id)} className={`bg-gray-400 ${room.booked ? "bg-green-200" : ""}`}>{room.booked ? "Booked" : "Book Now"}</Button>
+                <Button onClick={() => bookRoom(room._id)} className={`bg-gray-400 ${room.booked ? "bg-blue-200" : ""}`}>{room.booked ? "Booked" : "Book Now"}</Button>
                 <Button className={`bg-gray-400 ${room.booked ? "bg-green-200" : ""}`}>{room.payment ? "Payed" : "Pay Now"}</Button>
             
               { user === "admin" && (

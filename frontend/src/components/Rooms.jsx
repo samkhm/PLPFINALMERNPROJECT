@@ -2,7 +2,7 @@ import RoomCard from "./RoomCard";
 import RoomDialog from "./RoomDialog";
 import { getUserRole } from "@/utils/auth";
 
-export default function Rooms({ rooms, deleteRoom, createRoom, bookRoom }) {
+export default function Rooms({ rooms, deleteRoom, createRoom }) {
   const userRole = getUserRole(); // If async, you'd use useEffect and useState
 
   const isAdmin = userRole === "admin";
@@ -25,7 +25,6 @@ export default function Rooms({ rooms, deleteRoom, createRoom, bookRoom }) {
               key={room._id}
               room={room}
               deleteRoom={deleteRoom}
-              bookRoom={bookRoom}
             />
           ))}
         </section>
