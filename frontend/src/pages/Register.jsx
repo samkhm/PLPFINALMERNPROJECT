@@ -91,7 +91,7 @@ export default function Signup() {
     });
 
     if (!res.data?.token) {
-      setMessage("Register failed; No token received");
+      setMessage("Register failed: No token received");
       setMessageType("error");
       return;
     }

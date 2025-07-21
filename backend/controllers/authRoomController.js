@@ -18,7 +18,7 @@ exports.createRoom = async (req, res) => {
     const room = await Room.create({
       roomNumber,
       ...rest,
-      owner: req.user.id
+      
     });
 
     return res.status(201).json(room);
