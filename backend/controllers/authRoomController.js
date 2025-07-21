@@ -145,7 +145,7 @@ exports.deleteRooms = async (req, res) =>{
         const room = await Room.findById(req.params.id);
         if(!room) return res.status(404).json({ message: "Room not found"});
 
-        if(room.owner.toString() !== req.user.id && req.user.role !== "admin"){
+        if(req.user.role !== "admin"){
             return res.status(403).json({ message: "You cant delete a room"});
         };
 
