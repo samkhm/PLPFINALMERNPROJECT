@@ -20,55 +20,67 @@ export default function Signup() {
   const [messageType, setMessageType] = useState(""); // "", "error", or "success"
 
 
- const handleSignup = async () => {
+const handleSignup = async () => {
   const nameRegex = /^[A-Za-z]+$/;
   const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
   const phoneRegex = /^\d{10}$/;
   const passwordRegex = /^(?=.*[A-Za-z])(?=.*\d)(?=.*[^A-Za-z0-9]).{8,}$/;
 
+  // Trimmed input values
+  const trimmedFirstName = firstName.trim();
+  const trimmedLastName = lastName.trim();
+  const trimmedEmail = email.trim();
+  const trimmedPhone = phone.trim();
+  const trimmedPassword = password.trim();
+
+  // Check for empty fields
   if (
-    !firstName.trim() ||
-    !lastName.trim() ||
-    !email.trim() ||
-    !phone.trim() ||
-    !password.trim()
+    !trimmedFirstName ||
+    !trimmedLastName ||
+    !trimmedEmail ||
+    !trimmedPhone ||
+    !trimmedPassword
   ) {
     setMessage("All fields are required");
     setMessageType("error");
     return;
   }
 
-  if (!nameRegex.test(firstName)) {
+  // Validate names
+  if (!nameRegex.test(trimmedFirstName)) {
     setMessage("First name must contain only letters");
     setMessageType("error");
     return;
   }
 
-  if (!nameRegex.test(lastName)) {
+  if (!nameRegex.test(trimmedLastName)) {
     setMessage("Last name must contain only letters");
     setMessageType("error");
     return;
   }
 
-  if (!emailRegex.test(email)) {
+  // Validate email
+  if (!emailRegex.test(trimmedEmail)) {
     setMessage("Invalid email format");
     setMessageType("error");
     return;
   }
 
-  if (!phoneRegex.test(phone)) {
+  // Validate phone
+  if (!phoneRegex.test(trimmedPhone)) {
     setMessage("Phone number must be exactly 10 digits");
     setMessageType("error");
     return;
   }
 
-  if (phone.startsWith("254")) {
+  if (trimmedPhone.startsWith("254")) {
     setMessage("Please enter your phone number without the country code (e.g., 712345678)");
     setMessageType("error");
     return;
   }
 
-  if (!passwordRegex.test(password)) {
+  // Validate password
+  if (!passwordRegex.test(trimmedPassword)) {
     setMessage(
       "Password must be at least 8 characters, include a letter, number, and special character"
     );
@@ -83,11 +95,11 @@ export default function Signup() {
 
   try {
     const res = await API.post("/auth/signup", {
-      firstName,
-      lastName,
-      email,
-      phone: `254${phone.startsWith("0") ? phone.slice(1) : phone}`, // ✅ Add 254 prefix here
-      password,
+      firstName: trimmedFirstName,
+      lastName: trimmedLastName,
+      email: trimmedEmail,
+      phone: `254${trimmedPhone.startsWith("0") ? trimmedPhone.slice(1) : trimmedPhone}`,
+      password: trimmedPassword,
     });
 
     if (!res.data?.token) {
@@ -113,6 +125,7 @@ export default function Signup() {
     setLoading(false);
   }
 };
+
 
 
   return (
