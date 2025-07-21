@@ -38,22 +38,45 @@ exports.getAllrooms = async (req, res) =>{
 };
 
 //api/bookedroom
-exports.createBookedRoom = async (req, res) =>{
-    try {
-        const room = await Room.findById(req.params.id);
-        if(!room) return res.status(404).json({ message: "Room not Found"});
-        if(room.booked || room.pending || !availability) return res.status(400).json({ message: "Room is already booked"});
-        
-        if(room.owner.toString() === req.user.id) return res.status(400).json({ message: "You can't book your own room"});
-         
-        const bookedRoom = await BookedRooms.create({ room_id: room._id, owner: req.user.id, rooNumber: room.roomNumber, price: room.price});
-        res.json(bookedRoom);
-                
-    } catch (error) {
-        console.log("Error booking room", error);
-        
+// POST /rooms/book/:id
+exports.bookRoom = async (req, res) => {
+  try {
+    const room = await Room.findById(req.params.id);
+    if (!room) {
+      return res.status(404).json({ message: "Room not found" });
     }
-}
+
+    if (room.booked) {
+      return res.status(400).json({ message: "Room is already booked" });
+    }
+
+    // Update room status
+    room.booked = true;
+    await room.save();
+
+    // Create booked room record
+    const bookedRoom = await BookedRooms.create({
+      room_id: room._id,
+      owner: req.user.id,
+      roomNumber: room.roomNumber,
+      location: room.location,
+      availability: !room.availability,
+      booked: room.booked,
+      pending: !room.pending,
+      payment: room.payment,
+      price: room.price,
+    });
+
+    res.status(201).json({ message: "Room booked successfully", room, bookedRoom });
+
+  } catch (error) {
+    console.error("Error booking room:", error);
+    res.status(500).json({ message: "Internal server error" });
+  }
+};
+
+
+
 //api/rooms/getAllbookedRooms
 exports.getAllBookedRooms = async (req, res) => {
     const bookedRooms = await BookedRooms.find().populate("owner", "firstName email");
@@ -135,3 +158,28 @@ exports.deleteRooms = async (req, res) =>{
         
     }
 }
+
+exports.deleteBookedRoom = async (req, res) => {
+  try {
+    const bookedRoom = await BookedRooms.findById(req.params.id);
+    if (!bookedRoom) {
+      return res.status(404).json({ message: "Booked room not found" });
+    }
+
+    const room = await Room.findById(bookedRoom.room_id);
+    if (room) {
+      room.booked = false;
+      availability = true;
+      pending = false;
+      await room.save();
+    }
+
+    await BookedRooms.findByIdAndDelete(req.params.id);
+
+    res.status(200).json({ message: "Room booking cancelled successfully" });
+
+  } catch (error) {
+    console.error("Error cancelling booking:", error);
+    res.status(500).json({ message: "Internal server error" });
+  }
+};

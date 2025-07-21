@@ -2,29 +2,31 @@ import RoomCard from "./RoomCard";
 import RoomDialog from "./RoomDialog";
 import { getUserRole } from "@/utils/auth";
 
-export default function MyRooms({ rooms, deleteRoom, createRoom, bookRoom }) {
+export default function MyRooms({ myRooms, deleteRoom, createRoom, bookRoom, deleteBookedRoom }) {
   const userRole = getUserRole(); // If async, you'd use useEffect and useState
 
-  const isAdmin = userRole === "admin";
-  const isUser = userRole === "user";
+  // const isAdmin = userRole === "admin";
+  // const isUser = userRole === "user";
 
-  const bookedRooms = isUser
-    ? rooms.filter((room) => room.booked)
-    : rooms;
+  // const bookedRooms = isUser
+  //   ? myRooms.filter((room) => room.booked)
+  //   : myRooms;
 
   return (
     <div className="max-w-5xl mx-auto p-4">
       
-      {bookedRooms.length > 0 ? (
+      {myRooms.length > 0 ? (
         <section
           className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4"
         >
-          {bookedRooms.map((room) => (
+          {myRooms.map((room) => (
             <RoomCard
               key={room._id}
               room={room}
               deleteRoom={deleteRoom}
               bookRoom={bookRoom}
+              
+              deleteBookedRoom={deleteBookedRoom}
             />
           ))}
         </section>
