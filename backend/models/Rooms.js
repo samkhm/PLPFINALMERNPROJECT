@@ -8,8 +8,6 @@ const roomSchema = new mongoose.Schema({
     booked: { type: Boolean, default: false },
     pending:{ type: Boolean, default: false},
     payment:{ type: Boolean, default: false},
-   
-    
-});
+   });
 
 module.exports = mongoose.model("Room", roomSchema);
