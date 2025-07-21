@@ -86,7 +86,7 @@ export default function Signup() {
       firstName,
       lastName,
       email,
-      phone: `254${phone}`, // ✅ Add 254 prefix here
+      phone: `254${phone.startsWith("0") ? phone.slice(1) : phone}`, // ✅ Add 254 prefix here
       password,
     });
 
@@ -152,11 +152,21 @@ export default function Signup() {
             onChange={e => setEmail(e.target.value)}
           />
           <Input
-            type="number"
-            placeholder="Phone"
+            type="tel"
+            placeholder="Phone (e.g. 712345678)"
             value={phone}
-            onChange={e => setPhone(e.target.value)}
+            maxLength={10}
+            onChange={(e) => {
+              const raw = e.target.value;
+              const numeric = raw.replace(/\D/g, "");
+              if (numeric.startsWith("254")) {
+                setPhone(numeric.slice(3));
+              } else {
+                setPhone(numeric);
+              }
+            }}
           />
+
           <Input
             type="password"
             placeholder="Password"
