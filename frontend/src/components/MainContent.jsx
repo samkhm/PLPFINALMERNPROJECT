@@ -1,6 +1,7 @@
 import Home from "@/components/Home";
 import Rooms from "./Rooms";
 import Receipts from "./Receipts";
+import MyRooms from "./MyRooms";
 
 export default function MainContent({ activeSection, loading, rooms, bookRoom}){
     let content;
@@ -10,6 +11,9 @@ export default function MainContent({ activeSection, loading, rooms, bookRoom}){
             break;
         case 'rooms':
             content = <div className="dark:bg-gray-300"><Rooms loading={loading} rooms={rooms} bookRoom={bookRoom}/></div>
+            break;
+        case 'myrooms':
+            content = <div className="dark:bg-gray-300"><MyRooms loading={loading} rooms={rooms}/></div>
             break;
         case 'receipts':
             content = <div className="dark:bg-gray-300"><Receipts loading={loading}/></div>

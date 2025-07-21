@@ -8,12 +8,14 @@ export default function Sidebar({ activeSection, setActiveSection }) {
     const userMenuItems = [
         { name: "Home", icon: <HomeModernIcon className="h-5 w-5" />, key: 'home' },
         { name: "Rooms", icon: <BedIcon className="h-5 w-5" />, key: 'rooms' },
+        { name: "My Rooms", icon: <BedIcon className="h-5 w-5" />, key: 'myrooms' },
         { name: "Receipts", icon: <Receipt className="h-5 w-5" />, key: 'receipts' }
     ];
 
     const adminMenuItems = [
         { name: "Home", icon: <HomeModernIcon className="h-5 w-5" />, key: 'home' },
         { name: "Rooms", icon: <BedIcon className="h-5 w-5" />, key: 'rooms' },
+        
         { name: "Receipts", icon: <Receipt className="h-5 w-5"  />, key: 'receipts' }
     ];
 

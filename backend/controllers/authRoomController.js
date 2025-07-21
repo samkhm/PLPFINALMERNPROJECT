@@ -4,21 +4,31 @@ const BookedRooms = require("../models/BookedRooms");
 //api/rooms
 exports.createRoom = async (req, res) => {
   try {
-    const { roomNumber } = req.body;
+    const { roomNumber, ...rest } = req.body;
 
-     const roomExist = await Room.findOne({ roomNumber });
-    if (roomExist) {
-      return res.json({ message: "Room already exists" });
+    if (!roomNumber) {
+      return res.status(400).json({ message: "Room number is required" });
     }
 
-    const room = await Room.create({ ...req.body, owner: req.user.id });
+    const roomExist = await Room.findOne({ roomNumber });
+    if (roomExist) {
+      return res.status(409).json({ message: "Room already exists" });
+    }
+
+    const room = await Room.create({
+      roomNumber,
+      ...rest,
+      owner: req.user.id
+    });
+
     return res.status(201).json(room);
-    
+
   } catch (error) {
     console.error("Error creating room:", error);
     return res.status(500).json({ message: "Server error", error: error.message });
   }
 };
+
 
 
 //api/rooms/getAllrooms

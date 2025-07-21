@@ -8,7 +8,7 @@ const roomSchema = new mongoose.Schema({
     booked: { type: Boolean, default: false },
     pending:{ type: Boolean, default: false},
     payment:{ type: Boolean, default: false},
-    owner:{type: mongoose.Schema.Types.ObjectId, ref: "User", required: true, unique: true}
+    owner:{type: mongoose.Schema.Types.ObjectId, ref: "User", required: true}
     
 });
 

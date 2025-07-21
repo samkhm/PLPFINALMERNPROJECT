@@ -39,11 +39,13 @@ const createRoom = async (payload) =>{
         const res = await API.post("/rooms", payload);
         
         setRooms(prev => [res.data, ...prev]);
-        toast("Room created succesfuly");
+        toast.success("Room created succesfuly");
         
         
     } catch (error) {
-        console.log('Error when creating room', error);
+        
+         const message = error?.response?.data?.message || "Room already exist";
+        toast.error(message);
         
     }
 };
