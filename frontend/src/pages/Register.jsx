@@ -2,7 +2,7 @@ import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
-import { Card, CardContent, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
+import { Card, CardContent, CardFooter, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
 import API from "../services/api";
 import { Link } from "react-router-dom"
 import { toast } from "sonner";
@@ -16,30 +16,121 @@ export default function Signup() {
   const [password, setPassword] = useState("");
   const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
+  const [message, setMessage] = useState("");
+  const [messageType, setMessageType] = useState(""); // "", "error", or "success"
 
 
-  const handleSignup = async () => {
-    if (!firstName.trim() || !lastName.trim() || !email.trim() || !phone.trim() || !password.trim()) return alert("All fields required");
-    setLoading(true);
-    try {
-      const res = await API.post("/auth/signup", { firstName, lastName, email, phone, password });
-      localStorage.setItem("token", res.data.token);
-      toast("Registered successfully");
-      navigate("/dashboard");
+ const handleSignup = async () => {
+  const nameRegex = /^[A-Za-z]+$/;
+  const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+  const phoneRegex = /^\d{10}$/;
+  const passwordRegex = /^(?=.*[A-Za-z])(?=.*\d)(?=.*[^A-Za-z0-9]).{8,}$/;
 
-    } catch (err) {
-      alert(err.response?.data?.message || "Signup failed");
-      
-    } finally {
-      setLoading(false);
+  if (
+    !firstName.trim() ||
+    !lastName.trim() ||
+    !email.trim() ||
+    !phone.trim() ||
+    !password.trim()
+  ) {
+    setMessage("All fields are required");
+    setMessageType("error");
+    return;
+  }
+
+  if (!nameRegex.test(firstName)) {
+    setMessage("First name must contain only letters");
+    setMessageType("error");
+    return;
+  }
+
+  if (!nameRegex.test(lastName)) {
+    setMessage("Last name must contain only letters");
+    setMessageType("error");
+    return;
+  }
+
+  if (!emailRegex.test(email)) {
+    setMessage("Invalid email format");
+    setMessageType("error");
+    return;
+  }
+
+  if (!phoneRegex.test(phone)) {
+    setMessage("Phone number must be exactly 10 digits");
+    setMessageType("error");
+    return;
+  }
+
+  if (phone.startsWith("254")) {
+    setMessage("Please enter your phone number without the country code (e.g., 712345678)");
+    setMessageType("error");
+    return;
+  }
+
+  if (!passwordRegex.test(password)) {
+    setMessage(
+      "Password must be at least 8 characters, include a letter, number, and special character"
+    );
+    setMessageType("error");
+    return;
+  }
+
+  // All validations passed
+  setLoading(true);
+  setMessage("");
+  setMessageType("");
+
+  try {
+    const res = await API.post("/auth/signup", {
+      firstName,
+      lastName,
+      email,
+      phone: `254${phone}`, // ✅ Add 254 prefix here
+      password,
+    });
+
+    if (!res.data?.token) {
+      setMessage("Register failed: No token received");
+      setMessageType("error");
+      return;
     }
-  };
+
+    localStorage.setItem("token", res.data.token);
+    setMessage("Signup successful. Redirecting...");
+    setMessageType("success");
+    toast("Registered successfully");
+
+    setTimeout(() => {
+      navigate("/dashboard");
+    }, 1000);
+  } catch (err) {
+    const errorMsg =
+      err.response?.data?.message || "Signup failed. Please try again.";
+    setMessage(errorMsg);
+    setMessageType("error");
+  } finally {
+    setLoading(false);
+  }
+};
+
 
   return (
     <div className="flex min-h-screen items-center justify-center bg-gray-100 dark:bg-zinc-900 px-4">
       <Card className="w-full max-w-md shadow-xl animate-fade">
         <CardHeader>
           <CardTitle className="text-center text-2xl font-bold">Sign Up</CardTitle>
+                    <CardDescription
+                      className={`text-sm ${
+                        messageType === "error"
+                          ? "text-red-600"
+                          : messageType === "success"
+                          ? "text-green-600"
+                          : "text-zinc-500"
+                      }`}
+                    >
+                      {message || "Enter your credentials to continue"}
+                    </CardDescription>
         </CardHeader>
         <CardContent className="space-y-4">
           <Input
