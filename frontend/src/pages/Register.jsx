@@ -41,7 +41,7 @@ const handleSignup = async () => {
     !trimmedPhone ||
     !trimmedPassword
   ) {
-    setMessage("All fields are required");
+    setMessage("All fields are required!");
     setMessageType("error");
     return;
   }
