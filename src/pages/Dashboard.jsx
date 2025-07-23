@@ -87,7 +87,7 @@ const deleteBookedRoom = async (id) =>{
 
     return(
         <div>
-            <Navbar />
+            <Navbar/>
             <div className="grid grid-cols-1 sm:grid-cols-[auto_1fr] h-screen">
                 <Sidebar activeSection ={activeSection} setActiveSection={setActiveSection} />
                 <MainContent activeSection={activeSection}  

@@ -44,9 +44,9 @@ export default function Users({ users, userAndRoom }) {
   };
 
   const renderTable = (title, data, id) => (
-    <div className="bg-gray-200 w-full p-4 rounded-md shadow-md">
-      <div id={id}>
-        <Table className="mb-4">
+    <div className="bg-gray-200 p-4 rounded-md shadow-md overflow-x-hidden w-full">
+      <div id={id} >
+        <Table className="mb-4 overflow-x-hidden">
           <TableCaption>{title}</TableCaption>
           <TableHeader>
             <TableRow>
@@ -57,8 +57,9 @@ export default function Users({ users, userAndRoom }) {
               <TableHead className="text-right">Phone</TableHead>
             </TableRow>
           </TableHeader>
-          <TableBody>
-            {data.map((user, index) => (
+        <TableBody>
+          {data.length > 0 ? (
+            data.map((user, index) => (
               <TableRow key={user._id}>
                 <TableCell className="font-medium">{index + 1}</TableCell>
                 <TableCell>{user.firstName}</TableCell>
@@ -66,8 +67,16 @@ export default function Users({ users, userAndRoom }) {
                 <TableCell>{user.email}</TableCell>
                 <TableCell className="text-right">{user.phone}</TableCell>
               </TableRow>
-            ))}
-          </TableBody>
+            ))
+          ) : (
+            <TableRow>
+              <TableCell colSpan={5} className="text-center text-gray-500">
+                No data available
+              </TableCell>
+            </TableRow>
+          )}
+        </TableBody>
+
           <TableFooter>
             <TableRow>
               <TableCell colSpan={5}>Total: {data.length}</TableCell>

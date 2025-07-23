@@ -11,7 +11,7 @@ export default function MainContent({ activeSection, loading, rooms, users, crea
                                                            bookedRoomCount={bookedRoomCount} unBookedRoomCount={unBookedRoomCount}/> </div>
             break;
         case 'users':
-            content = <div className="dark:bg-gray-300"> <Users users={users} userAndRoom={userAndRoom} /></div>
+            content = <div className="bg-gray-700 p-2 flex flex-wrap min-w-150 overflow-x-scroll"> <Users users={users} userAndRoom={userAndRoom} /></div>
             break;
         case 'rooms':
             content = <div className="dark:bg-gray-300"> <Rooms loading={loading} rooms={rooms} createRoom={createRoom} deleteRoom={deleteRoom}/> </div>
