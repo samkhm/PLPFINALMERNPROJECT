@@ -19,23 +19,27 @@ const [unBookedRoomCount, setUnBookedRoomCount] = useState(null);
 const [userCount, setUserCount] = useState(null);
 const [users, setUsers] = useState([]);
 const [userAndRoom, setUserAndRoom] = useState([]);
+ const [query, setQuery] = useState("");
+
 
 const loadRooms = async () =>{
     try {
-    const res = await API.get("/rooms/all");
+    const res = await API.get(`/rooms/all?search=${encodeURIComponent(query)}`);
     setRooms(res.data);
     setRoomCount(res.data.length);
-    console.log("res.data", res.data);
+    
             
     } catch (error) {
         toast.error("Failed to load rooms");
-        console.log("Fetch error", error);
+        
         
     }finally{
         setLoading(false);
     }
-
 };
+
+
+
 
 const loadBookedRooms = async () =>{
     try {
@@ -72,11 +76,13 @@ const fetchUserCount = async () => {
       }
     };
 
+
 useEffect(() => {
      loadRooms();
      fetchUserCount();
      loadBookedRooms();
      loadUnBookedRooms();
+
 }, []);
 
 const createRoom = async (payload) =>{
@@ -114,7 +120,18 @@ const deleteRoom = async (id) =>{
     toast("Room deleted");
 };
 
-
+const deleteBookedRoom = async (id) =>{
+    try {
+        await API.delete(`/rooms/deleteBookedRoom/${id}`);
+        setMyRooms(prev => prev.filter(r => r._id !== id));
+        toast("Room unbooked successful");
+        
+    } catch (error) {
+        console.log("Booking error", error);
+        toast.error("Failed to cancel unbook");
+        
+    }
+}
 
 
 
@@ -127,7 +144,8 @@ const deleteRoom = async (id) =>{
                 <AdminMainContent activeSection={activeSection}  loading={loading} createRoom={createRoom} 
                 deleteRoom={deleteRoom} onApprove={approveRoom} rooms={rooms}
                 roomCount={roomCount} userCount={userCount} bookedRoomCount={bookedRoomCount}
-                unBookedRoomCount={unBookedRoomCount} users={users} userAndRoom={userAndRoom}/>
+                unBookedRoomCount={unBookedRoomCount} users={users} userAndRoom={userAndRoom}
+                query={query} setQuery={setQuery} />
 
             </div>
         </div>

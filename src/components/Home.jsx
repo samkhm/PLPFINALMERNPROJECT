@@ -6,7 +6,7 @@ import TableOfMyRooms from "./TableOfMyRooms";
 export default function Home({ roomCount, userCount, bookedRoomCount, unBookedRoomCount, myRooms, myRoomCount }) {
   const user = getUserFromToken();
   const userRole = getUserRole();
-  console.log("My rooms", myRooms);
+ 
 
   const capitalizedFirstName =
     user?.firstName?.charAt(0).toUpperCase() + user?.firstName?.slice(1);

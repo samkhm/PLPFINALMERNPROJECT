@@ -47,6 +47,8 @@ export default function RoomCard({ room, onBook, onPay, deleteRoom, bookRoom, de
             )}
           </>
         )}
+
+        
         {user === "user" && room.booked && (
         <Button
             disabled={room.payment}
