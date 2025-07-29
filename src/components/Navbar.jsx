@@ -21,6 +21,7 @@ export default function Navbar(){
             { userRole === "admin" ? (<Link to="/dashboard" className="font-bold text-lg"> Admin Dashboard</Link>) : (<Link to="/dashboard" className="font-bold text-lg">Dashboard</Link>) }
             
             
+            
             <div className="flex items-centre gap-2">
  
                 <ThemeToggle />

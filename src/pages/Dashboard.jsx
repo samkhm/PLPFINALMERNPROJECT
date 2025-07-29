@@ -8,7 +8,7 @@ import MainContent from "@/components/MainContent";
 export default function Dashboard(){
 const [activeSection, setActiveSection] = useState('home');
 const [loading, setLoading] = useState(true);
-const [openSidebar, setSidebar] = useState(false);
+
 const [rooms, setRooms] = useState([]);
 const [myRooms, setMyRooms] = useState([]);
 const [myRoomCount, setMyRoomCount] = useState(null);
@@ -88,12 +88,15 @@ const deleteBookedRoom = async (id) =>{
     return(
         <div>
             <Navbar/>
-            <div className="grid grid-cols-1 sm:grid-cols-[auto_1fr] h-screen">
+            <div className="grid grid-cols-[auto_1fr] h-screen">
                 <Sidebar activeSection ={activeSection} setActiveSection={setActiveSection} />
+
                 <MainContent activeSection={activeSection}  
                 loading={loading} rooms={rooms} myRooms={myRooms} 
                 bookRoom={bookRoom} deleteBookedRoom={deleteBookedRoom}
-                myRoomCount={myRoomCount}/>
+                myRoomCount={myRoomCount}
+                
+                />
 
             </div>
         </div>

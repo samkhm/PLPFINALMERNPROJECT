@@ -3,13 +3,13 @@ import { TrashIcon } from "@heroicons/react/24/solid";
 import { Button } from "@/components/ui/button";
 import { getUserRole } from "@/utils/auth";
 
-export default function RoomCard({ room, onBook, onPay, deleteRoom, bookRoom, deleteBookedRoom }) {
+export default function RoomCard({ room, onBook, makePayment, deleteRoom, bookRoom, deleteBookedRoom }) {
   const user = getUserRole();
 
   
   return (
     <Card
-      className={`relative animation-fade ${room.booked ? "bg-green-100" : ""}`}
+      className={`relative animation-fade ${room.booked ? "bg-gray-100" : ""}`}
     >
       <CardHeader>
         <CardTitle className="text-lg font-semibold">
@@ -33,7 +33,7 @@ export default function RoomCard({ room, onBook, onPay, deleteRoom, bookRoom, de
             {room.booked ? (
               <Button
                 onClick={() => deleteBookedRoom(room._id)}
-                className="bg-blue-200"
+                className="bg-blue-600"
               >
                 Unbook
               </Button>
@@ -54,10 +54,10 @@ export default function RoomCard({ room, onBook, onPay, deleteRoom, bookRoom, de
             disabled={room.payment}
             onClick={() => {
             if (!room.payment) {
-                onPay?.(room._id);
+                makePayment?.(room._id);
             }
             }}
-            className={`bg-gray-400 ${room.payment ? "bg-green-200" : ""}`}
+            className={`bg-gray-400 ${room.payment ? "bg-green-500" : ""}`}
         >
             {room.payment ? "Paid" : "Pay Now"}
         </Button>

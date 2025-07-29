@@ -61,12 +61,12 @@ export default function Users({ userAndRoom }) {
             {userAndRoom.map((user, index) => (
               <TableRow key={user._id}>
                 <TableCell className="font-medium">{index + 1}</TableCell>
-                <TableCell>{user.owner.firstName}</TableCell>
-                <TableCell>{user.owner.lastName}</TableCell>
-                <TableCell>{user.owner.email}</TableCell>
-                <TableCell>{user.owner.phone}</TableCell>
+                <TableCell>{user.owner?.firstName}</TableCell>
+                <TableCell>{user.owner?.lastName}</TableCell>
+                <TableCell>{user.owner?.email}</TableCell>
+                <TableCell>{user.owner?.phone}</TableCell>
                 <TableCell>{user.roomNumber}</TableCell>
-                <TableCell className={`bg-red-500 text-white ${ user.payment ? "bg-green" : ""}`}>{user.payment ? "Done" : "Not Yet"}</TableCell>
+                <TableCell className={`bg-red-500 text-white ${ user.payment ? "bg-green-500" : ""}`}>{user.payment ? "Done" : "Not Yet"}</TableCell>
                 <TableCell className="text-right">{user.price}</TableCell>
               </TableRow>
             ))}
