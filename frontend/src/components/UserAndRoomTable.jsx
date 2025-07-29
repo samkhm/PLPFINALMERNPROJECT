@@ -66,7 +66,7 @@ export default function Users({ userAndRoom }) {
                 <TableCell>{user.owner?.email}</TableCell>
                 <TableCell>{user.owner?.phone}</TableCell>
                 <TableCell>{user.roomNumber}</TableCell>
-                <TableCell className={`bg-red-500 text-white ${ user.payment ? "bg-green" : ""}`}>{user.payment ? "Done" : "Not Yet"}</TableCell>
+                <TableCell className={`bg-red-500 text-white ${ user.payment ? "bg-green-500" : ""}`}>{user.payment ? "Done" : "Not Yet"}</TableCell>
                 <TableCell className="text-right">{user.price}</TableCell>
               </TableRow>
             ))}
