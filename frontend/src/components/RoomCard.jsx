@@ -3,7 +3,7 @@ import { TrashIcon } from "@heroicons/react/24/solid";
 import { Button } from "@/components/ui/button";
 import { getUserRole } from "@/utils/auth";
 
-export default function RoomCard({ room, onBook, onPay, deleteRoom, bookRoom, deleteBookedRoom }) {
+export default function RoomCard({ room, onBook, makePayment, deleteRoom, bookRoom, deleteBookedRoom }) {
   const user = getUserRole();
 
   
@@ -47,12 +47,14 @@ export default function RoomCard({ room, onBook, onPay, deleteRoom, bookRoom, de
             )}
           </>
         )}
+
+        
         {user === "user" && room.booked && (
         <Button
             disabled={room.payment}
             onClick={() => {
             if (!room.payment) {
-                onPay?.(room._id);
+                makePayment?.(room._id);
             }
             }}
             className={`bg-gray-400 ${room.payment ? "bg-green-200" : ""}`}

@@ -13,25 +13,76 @@ const [activeSection, setActiveSection] = useState('home');
 const [loading, setLoading] = useState(true);
 const [openSidebar, setSidebar] = useState(false);
 const [rooms, setRooms] = useState([]);
+const [roomCount, setRoomCount] = useState(null);
+const [bookedRoomCount, setBookedRoomCount] = useState(null);
+const [unBookedRoomCount, setUnBookedRoomCount] = useState(null);
+const [userCount, setUserCount] = useState(null);
+const [users, setUsers] = useState([]);
+const [userAndRoom, setUserAndRoom] = useState([]);
+ const [query, setQuery] = useState("");
+
 
 const loadRooms = async () =>{
     try {
-    const res = await API.get("/rooms/all");
+    const res = await API.get(`/rooms/all?search=${encodeURIComponent(query)}`);
     setRooms(res.data);
-    // console.log("res.data", res.data);
+    setRoomCount(res.data.length);
+    
             
     } catch (error) {
         toast.error("Failed to load rooms");
-        console.log("Fetch error", error);
+        
         
     }finally{
         setLoading(false);
     }
-
 };
 
+
+
+
+const loadBookedRooms = async () =>{
+    try {
+
+        const res = await API.get("/rooms/allbookedRooms");
+        setBookedRoomCount(res.data.length);
+        setUserAndRoom(res.data);
+        
+    } catch (error) {
+        console.log("Failed to load booked rooms");
+        
+    }
+}; 
+
+const loadUnBookedRooms = async () =>{
+    try {
+
+        const res = await API.get("/rooms/allUnBookedRooms");
+        setUnBookedRoomCount(res.data.length);
+        
+    } catch (error) {
+        console.log("Failed to load unbooked rooms");
+        
+    }
+};
+
+const fetchUserCount = async () => {
+      try {
+        const response = await API.get("/auth/users");
+        setUserCount(response.data.length);
+        setUsers(response.data);
+      } catch (error) {
+        console.error("Error fetching user count:", error);
+      }
+    };
+
+
 useEffect(() => {
-    loadRooms();
+     loadRooms();
+     fetchUserCount();
+     loadBookedRooms();
+     loadUnBookedRooms();
+
 }, []);
 
 const createRoom = async (payload) =>{
@@ -69,13 +120,32 @@ const deleteRoom = async (id) =>{
     toast("Room deleted");
 };
 
+const deleteBookedRoom = async (id) =>{
+    try {
+        await API.delete(`/rooms/deleteBookedRoom/${id}`);
+        setMyRooms(prev => prev.filter(r => r._id !== id));
+        toast("Room unbooked successful");
+        
+    } catch (error) {
+        console.log("Booking error", error);
+        toast.error("Failed to cancel unbook");
+        
+    }
+}
+
+
+
 
     return(
         <div>
             <Navbar />
             <div className="grid grid-cols-1 sm:grid-cols-[auto_1fr] h-screen">
                 <Sidebar activeSection ={activeSection} setActiveSection={setActiveSection} />
-                <AdminMainContent activeSection={activeSection}  loading={loading} createRoom={createRoom} deleteRoom={deleteRoom} onApprove={approveRoom} rooms={rooms}/>
+                <AdminMainContent activeSection={activeSection}  loading={loading} createRoom={createRoom} 
+                deleteRoom={deleteRoom} onApprove={approveRoom} rooms={rooms}
+                roomCount={roomCount} userCount={userCount} bookedRoomCount={bookedRoomCount}
+                unBookedRoomCount={unBookedRoomCount} users={users} userAndRoom={userAndRoom}
+                query={query} setQuery={setQuery} />
 
             </div>
         </div>

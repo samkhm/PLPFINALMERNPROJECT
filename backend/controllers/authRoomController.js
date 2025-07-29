@@ -1,5 +1,6 @@
 const Room = require("../models/Rooms");
 const BookedRooms = require("../models/BookedRooms");
+const User = require("../models/User");
 
 //api/rooms
 exports.createRoom = async (req, res) => {
@@ -31,10 +32,28 @@ exports.createRoom = async (req, res) => {
 
 
 //api/rooms/getAllrooms
-exports.getAllrooms = async (req, res) =>{
-    const rooms = await Room.find();
+exports.getAllrooms = async (req, res) => {
+  const { search } = req.query;
+
+  try {
+    let rooms;
+
+    if (search) {
+      // Case-insensitive partial match on 'name' field
+      rooms = await Room.find({
+        roomNumber: { $regex: search, $options: 'i' }
+      });
+    } else {
+      rooms = await Room.find();
+    }
+
     res.json(rooms);
+  } catch (err) {
+    console.error("Error fetching rooms:", err);
+    res.status(500).json({ error: "Server error fetching rooms" });
+  }
 };
+
 
 //api/bookedroom
 // POST /rooms/book/:id
@@ -48,6 +67,8 @@ exports.bookRoom = async (req, res) => {
     if (room.booked) {
       return res.status(400).json({ message: "Room is already booked" });
     }
+
+    const user = await User.findById(req.user.id);
 
     // Update room status
     room.booked = true;
@@ -63,6 +84,7 @@ exports.bookRoom = async (req, res) => {
       booked: room.booked,
       pending: !room.pending,
       payment: room.payment,
+      phoneNumber: user.phone,
       price: room.price,
     });
 
@@ -78,10 +100,14 @@ exports.bookRoom = async (req, res) => {
 
 //api/rooms/getAllbookedRooms
 exports.getAllBookedRooms = async (req, res) => {
-    const bookedRooms = await BookedRooms.find().populate("owner", "firstName email");
+    const bookedRooms = await BookedRooms.find().populate("owner", "firstName lastName email phone");
     res.json(bookedRooms);
 };
 
+exports.getAllUnBookedRooms = async (req, res) => {
+    const unbookedRooms = await Room.find({booked : false});
+    res.json(unbookedRooms);
+};
 
 //api/rooms/me
 exports.getMyRoom = async (req, res) =>{
@@ -161,18 +187,20 @@ exports.deleteRooms = async (req, res) =>{
 exports.deleteBookedRoom = async (req, res) => {
   try {
     const bookedRoom = await BookedRooms.findById(req.params.id);
+
     if (!bookedRoom) {
       return res.status(404).json({ message: "Booked room not found" });
     }
 
+    // Set the room to unbooked
     const room = await Room.findById(bookedRoom.room_id);
     if (room) {
       room.booked = false;
-      availability = true;
-      pending = false;
+      room.availability = true;  // ✅ Corrected assignment
+      room.pending = false;      // ✅ Corrected assignment
       await room.save();
     }
-
+    // Delete the booking record
     await BookedRooms.findByIdAndDelete(req.params.id);
 
     res.status(200).json({ message: "Room booking cancelled successfully" });
@@ -182,3 +210,4 @@ exports.deleteBookedRoom = async (req, res) => {
     res.status(500).json({ message: "Internal server error" });
   }
 };
+

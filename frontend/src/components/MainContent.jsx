@@ -3,11 +3,12 @@ import Rooms from "./Rooms";
 import Receipts from "./Receipts";
 import MyRooms from "./MyRooms";
 
-export default function MainContent({ activeSection, loading, rooms, bookRoom, deleteBookedRoom, myRooms}){
+export default function MainContent({ activeSection, loading, rooms, bookRoom, myRoomCount,
+     deleteBookedRoom, myRooms}){
     let content;
     switch(activeSection){
         case 'home':
-            content = <div className="dark:bg-gray-300"> <Home loading={loading}/> </div>
+            content = <div className="dark:bg-gray-300"> <Home loading={loading} myRoomCount={myRoomCount} myRooms={myRooms}/> </div>
             break;
         case 'rooms':
             content = <div className="dark:bg-gray-300"><Rooms loading={loading} rooms={rooms} bookRoom={bookRoom}/></div>

@@ -11,6 +11,7 @@ app.use(cors());
 
 app.use("/api/auth", require("./routes/regLogRoutes"));
 app.use("/api/rooms", require("./routes/roomRoutes"));
+app.use("/api/payment", require("./routes/paymentRoute"));
 
 const PORT = process.env.PORT || 5000;
 

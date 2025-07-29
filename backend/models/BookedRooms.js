@@ -9,7 +9,7 @@ const bookedRoomSchema = new mongoose.Schema({
     pending:{ type: Boolean, default: false},
     payment:{ type: Boolean, default: false},
     roomNumber: { type: String, required: true },
-           
+    phoneNumber: {type: Number, required: true}, 
     price: { type: Number, required: true },
     status: { type: String, default: "available" },
     

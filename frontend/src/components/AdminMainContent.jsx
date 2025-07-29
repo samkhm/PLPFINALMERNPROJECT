@@ -1,15 +1,21 @@
 import Home from "@/components/Home";
 import Rooms from "./Rooms";
 import Receipts from "./Receipts";
+import Users from "./Users";
 
-export default function MainContent({ activeSection, loading, rooms, createRoom, deleteRoom, onApprove, receipts }){
+export default function MainContent({ activeSection, loading, rooms, users, createRoom, deleteRoom, onApprove, query, setQuery, 
+    receipts, roomCount, userCount, bookedRoomCount, unBookedRoomCount, userAndRoom }){
     let content;
     switch(activeSection){
         case 'home':
-            content = <div className="dark:bg-gray-300"> <Home loading={loading}/> </div>
+            content = <div className="dark:bg-gray-300"> <Home loading={loading} roomCount={roomCount} userCount={userCount}
+                                                           bookedRoomCount={bookedRoomCount} unBookedRoomCount={unBookedRoomCount}/> </div>
+            break;
+        case 'users':
+            content = <div className="bg-gray-700 p-2 flex flex-wrap min-w-150 overflow-x-scroll"> <Users users={users} userAndRoom={userAndRoom} /></div>
             break;
         case 'rooms':
-            content = <div className="dark:bg-gray-300"> <Rooms loading={loading} rooms={rooms} createRoom={createRoom} deleteRoom={deleteRoom}/> </div>
+            content = <div className="dark:bg-gray-300"> <Rooms query={query} setQuery={setQuery} loading={loading} rooms={rooms} createRoom={createRoom} deleteRoom={deleteRoom}/> </div>
             break;
         case 'receipts':
             content = <div className="dark:bg-gray-300"> <Receipts loading={loading} receipts={receipts}/> </div>

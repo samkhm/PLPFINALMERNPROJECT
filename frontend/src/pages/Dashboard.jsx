@@ -11,6 +11,7 @@ const [loading, setLoading] = useState(true);
 const [openSidebar, setSidebar] = useState(false);
 const [rooms, setRooms] = useState([]);
 const [myRooms, setMyRooms] = useState([]);
+const [myRoomCount, setMyRoomCount] = useState(null);
 
 const loadRooms = async () =>{
     try {
@@ -29,6 +30,7 @@ const loadBookedRooms = async () =>{
     try {
         const res = await API.get("/rooms/getMyRoom");
         setMyRooms(res.data);
+        setMyRoomCount(res.data.length);
         
     } catch (error) {
         const message = error?.response?.data?.message || "No Booked rooms";
@@ -85,10 +87,13 @@ const deleteBookedRoom = async (id) =>{
 
     return(
         <div>
-            <Navbar />
+            <Navbar/>
             <div className="grid grid-cols-1 sm:grid-cols-[auto_1fr] h-screen">
                 <Sidebar activeSection ={activeSection} setActiveSection={setActiveSection} />
-                <MainContent activeSection={activeSection}  loading={loading} rooms={rooms} myRooms={myRooms} bookRoom={bookRoom} deleteBookedRoom={deleteBookedRoom}/>
+                <MainContent activeSection={activeSection}  
+                loading={loading} rooms={rooms} myRooms={myRooms} 
+                bookRoom={bookRoom} deleteBookedRoom={deleteBookedRoom}
+                myRoomCount={myRoomCount}/>
 
             </div>
         </div>

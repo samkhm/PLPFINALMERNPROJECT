@@ -1,4 +1,4 @@
-import { HomeModernIcon, HomeIcon } from "@heroicons/react/24/solid";
+import { HomeModernIcon, HomeIcon, UserIcon } from "@heroicons/react/24/solid";
 import { getUserRole } from "@/utils/auth";
 import { Receipt } from "lucide-react";
 import { BedIcon } from "lucide-react";
@@ -7,6 +7,7 @@ export default function Sidebar({ activeSection, setActiveSection }) {
 
     const userMenuItems = [
         { name: "Home", icon: <HomeModernIcon className="h-5 w-5" />, key: 'home' },
+        
         { name: "Rooms", icon: <BedIcon className="h-5 w-5" />, key: 'rooms' },
         { name: "My Rooms", icon: <BedIcon className="h-5 w-5" />, key: 'myrooms' },
         { name: "Receipts", icon: <Receipt className="h-5 w-5" />, key: 'receipts' }
@@ -14,6 +15,7 @@ export default function Sidebar({ activeSection, setActiveSection }) {
 
     const adminMenuItems = [
         { name: "Home", icon: <HomeModernIcon className="h-5 w-5" />, key: 'home' },
+        { name: "Users", icon: <UserIcon className="h-5 w-5" />, key: 'users' },
         { name: "Rooms", icon: <BedIcon className="h-5 w-5" />, key: 'rooms' },
         
         { name: "Receipts", icon: <Receipt className="h-5 w-5"  />, key: 'receipts' }
