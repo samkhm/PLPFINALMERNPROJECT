@@ -122,7 +122,7 @@ exports.callbackHandler = async (req, res) => {
 
   if (!items) {
     console.warn("⚠️ Missing metadata or Items array:", callbackData?.Body);
-    return res.status(200).json({ message: "Callback received: missing metadata" });
+    return res.status(200).json({ message: "Callback received!: missing metadata" });
   }
 
   const amount = items.find(i => i.Name === "Amount")?.Value;
