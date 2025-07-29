@@ -11,6 +11,9 @@ try {
 
     const emailExist = await User.findOne({ email });
     if(emailExist) return res.status(401).json({ message: "User Already Exist"});
+    
+    const phoneExist = await User.findOne({ phone });
+    if(phoneExist) return res.status(401).json({ message: "Phone Number Already Exist"});
 
     const hashed = await bcrypt.hash(password, 10);
     const user = await User.create({ firstName, lastName, email,

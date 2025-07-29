@@ -8,7 +8,7 @@ export default function MainContent({ activeSection, loading, rooms, bookRoom, m
     let content;
     switch(activeSection){
         case 'home':
-            content = <div className="dark:bg-gray-300 w-full bg-red-600 "> <Home loading={loading} myRoomCount={myRoomCount} myRooms={myRooms}/> </div>
+            content = <div className="dark:bg-gray-300"> <Home loading={loading} myRoomCount={myRoomCount} myRooms={myRooms}/> </div>
             break;
         case 'rooms':
             content = <div className="dark:bg-gray-300"><Rooms loading={loading} rooms={rooms} bookRoom={bookRoom}/></div>
