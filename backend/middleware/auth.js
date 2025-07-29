@@ -50,6 +50,6 @@ exports.generateToken = async (req, res, next) => {
         next();
     } catch (err) {
         res.status(400).json({ error: "Token generation failed", details: err.message });
-        console.log("error for token is", err);
+        
     }
 };
