@@ -9,7 +9,7 @@ export default function RoomCard({ room, onBook, makePayment, deleteRoom, bookRo
   
   return (
     <Card
-      className={`relative animation-fade ${room.booked ? "bg-green-100" : ""}`}
+      className={`relative animation-fade ${room.booked ? "bg-gray-100" : ""}`}
     >
       <CardHeader>
         <CardTitle className="text-lg font-semibold">
@@ -33,7 +33,7 @@ export default function RoomCard({ room, onBook, makePayment, deleteRoom, bookRo
             {room.booked ? (
               <Button
                 onClick={() => deleteBookedRoom(room._id)}
-                className="bg-blue-200"
+                className="bg-blue-600"
               >
                 Unbook
               </Button>
@@ -57,7 +57,7 @@ export default function RoomCard({ room, onBook, makePayment, deleteRoom, bookRo
                 makePayment?.(room._id);
             }
             }}
-            className={`bg-gray-400 ${room.payment ? "bg-green-200" : ""}`}
+            className={`bg-gray-400 ${room.payment ? "bg-green-500" : ""}`}
         >
             {room.payment ? "Paid" : "Pay Now"}
         </Button>
