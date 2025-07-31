@@ -163,7 +163,7 @@ exports.callbackHandler = async (req, res) => {
     // console.log("✅ Payment saved:", savedPayment);
 
     await BookedRooms.findOneAndUpdate(
-      { phoneNumber: phoneNumber, payment: false },
+      { phoneNumber: phoneNumber, price: amount, payment: false },
       { payment: true, pending: false }
     );
 

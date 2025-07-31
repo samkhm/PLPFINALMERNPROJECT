@@ -197,7 +197,8 @@ exports.deleteBookedRoom = async (req, res) => {
     if (room) {
       room.booked = false;
       room.availability = true;  // ✅ Corrected assignment
-      room.pending = false;      // ✅ Corrected assignment
+      room.pending = false; 
+      room.payment = false;     // ✅ Corrected assignment
       await room.save();
     }
     // Delete the booking record
