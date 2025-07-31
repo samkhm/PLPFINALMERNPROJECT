@@ -116,7 +116,7 @@ exports.makePayment = async (req, res) => {
 
 exports.callbackHandler = async (req, res) => {
   console.log("📥 M-Pesa Callback Received:", JSON.stringify(req.body, null, 2));
-  console.log("Sending M-Pesa STK Push with callback:", CallBackURL);
+  
 
   const callbackData = req.body;
   const metadata = callbackData?.Body?.stkCallback?.CallbackMetadata;
