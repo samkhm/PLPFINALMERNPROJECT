@@ -56,7 +56,7 @@ exports.makePayment = async (req, res) => {
       PhoneNumber: phone,
       CallBackURL: process.env.MPESA_CALLBACK_URL,
       AccountReference: `Room ${booking.roomNumber}`,
-      TransactionDesc: `Payment for room ${booking.roomNumber}`,
+      TransactionDesc: `Payment for ${booking.roomNumber}`,
     };
     
  
