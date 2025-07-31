@@ -148,7 +148,7 @@ exports.callbackHandler = async (req, res) => {
     const existingPayment = await Payment.findOne({ transaction_id });
     if (existingPayment) {
       console.info("ℹ️ Duplicate transaction:", transaction_id);
-      return res.status(200).json({ message: "Duplicate transaction" });
+      return res.status(200).json({ message: "Duplicate transactions" });
     }
 
     const payment = new Payment({
