@@ -76,6 +76,14 @@ exports.makePayment = async (req, res) => {
 
     if (data.ResponseCode === "0") {
       // Payment initiated successfully
+      //store CheckoutRequestId and roomNumber in DB
+      await Payment.create({
+        phone,
+        amount,
+        roomNumber: booking.roomNumber,
+        checkoutRequestID: data.CheckoutRequestID,
+        status: "pending",
+      });
       
       return res.status(200).json({
         status: "initiated",
@@ -115,34 +123,38 @@ exports.makePayment = async (req, res) => {
 
 
 exports.callbackHandler = async (req, res) => {
+
   console.log("📥 M-Pesa Callback Received:", JSON.stringify(req.body, null, 2));
   
 
-  const callbackData = req.body;
-  const metadata = callbackData?.Body?.stkCallback?.CallbackMetadata;
+  const callback = req.body?.Body?.stkCallback;
+  const metadata = callback?.CallbackMetadata;
   const items = metadata?.Item;
 
-  if (!items) {
-    console.warn("⚠️ Missing metadata or Items array:", callbackData?.Body);
-    return res.status(200).json({ message: "Callback received!: missing metadata" });
+  if (!items || !callback.CheckoutRequestID) {
+    console.warn("⚠️ Missing metadata or Items array:", callback?.Body);
+    return res.status(200).json({ message: "Callback received!: missing data" });
   }
+
+  const checkoutRequestID = callback.CheckoutRequestID;
 
   const amount = items.find(i => i.Name === "Amount")?.Value;
   const transaction_id = items.find(i => i.Name === "MpesaReceiptNumber")?.Value;
   const transaction_date = items.find(i => i.Name === "TransactionDate")?.Value;
-  const phoneNumber = items.find(i => i.Name === "PhoneNumber")?.Value;
+  const phoneNumberRaw = items.find(i => i.Name === "PhoneNumber")?.Value;
  
+  if (!amount || !transaction_id || !phoneNumberRaw || !transaction_date) {
+    console.warn("⚠️ Incomplete transaction data");
+    return res.status(200).json({ message: "Incomplete data received" });
+  }
 
   const parsedDate = new Date(
     transaction_date.toString().replace(/^(\d{4})(\d{2})(\d{2})(\d{2})(\d{2})(\d{2})$/, '$1-$2-$3T$4:$5:$6Z')
   );
 
-  console.log("✅ Parsed Transaction Details:", { amount, transaction_id, phoneNumber, parsedDate});
+  console.log("✅ Parsed Transaction Details:", { amount, transaction_id, phoneNumberRaw, parsedDate});
 
-  if (!amount || !transaction_id || !phoneNumber || !transaction_date) {
-    console.warn("⚠️ Incomplete transaction data");
-    return res.status(200).json({ message: "Incomplete data received" });
-  }
+
 
   try {
     const existingPayment = await Payment.findOne({ transaction_id });
@@ -151,21 +163,30 @@ exports.callbackHandler = async (req, res) => {
       return res.status(200).json({ message: "Duplicate transaction" });
     }
 
-    const payment = new Payment({
-      
-      phone: phoneNumber,
-      amount,
-      transaction_date: parsedDate,
-      transaction_id
-    });
+    //find pending payment using CheckoutID
+    const pendingPayment = await Payment.findOne({ checkoutRequestID });
+    if(!pendingPayment){
+      console.warn("No matching payment");
+      return res.status(200).json({ message: "No matching pending payment"});
+    }
 
-    const savedPayment = await payment.save();
-    // console.log("✅ Payment saved:", savedPayment);
+    // update payment
+    pendingPayment.status = "completed";
+    pendingPayment.transaction_date = parsedDate;
+    pendingPayment.transaction_id = transaction_id;
+    await pendingPayment.save();
 
-    await BookedRooms.findOneAndUpdate(
-      { phoneNumber: phoneNumber, price: amount, payment: false },
-      { payment: true, pending: false }
+   //update room booking
+const bookingRecord = await BookedRooms.findOneAndUpdate(
+      { roomNumber: pendingPayment.roomNumber },
+      { payment: true, pending: false },
+      {new: true}
     );
+
+    if(!bookingRecord){
+      console.warn("⚠️ Booking not found for room:", pendingPayment.roomNumber);
+      return res.status(404).json({ message: "Booking not found" })
+    }
 
     return res.status(200).json({ message: "Payment saved and booking updated" });
 

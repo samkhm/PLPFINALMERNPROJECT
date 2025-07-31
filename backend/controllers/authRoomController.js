@@ -1,6 +1,7 @@
 const Room = require("../models/Rooms");
 const BookedRooms = require("../models/BookedRooms");
 const User = require("../models/User");
+const Payment = require("../models/Payment");
 
 //api/rooms
 exports.createRoom = async (req, res) => {
@@ -192,15 +193,19 @@ exports.deleteBookedRoom = async (req, res) => {
       return res.status(404).json({ message: "Booked room not found" });
     }
 
+    // Delete associated payment using roomNumber (or other unique criteria)
+    await Payment.deleteMany({ roomNumber: bookedRoom.roomNumber });
+
     // Set the room to unbooked
-    const room = await Room.findById(bookedRoom.room_id);
+    const room = await Room.findById(bookedRoom.room_id); // ✅ Model name should be Rooms (as imported)
     if (room) {
       room.booked = false;
-      room.availability = true;  // ✅ Corrected assignment
-      room.pending = false; 
-      room.payment = false;     // ✅ Corrected assignment
+      room.availability = true;
+      room.pending = false;
+      room.payment = false;
       await room.save();
     }
+
     // Delete the booking record
     await BookedRooms.findByIdAndDelete(req.params.id);
 
@@ -211,4 +216,5 @@ exports.deleteBookedRoom = async (req, res) => {
     res.status(500).json({ message: "Internal server error" });
   }
 };
+
 
