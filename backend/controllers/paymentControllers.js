@@ -18,9 +18,10 @@ exports.makePayment = async (req, res) => {
     }
 
     // Validate Safaricom number
-    if (!/^2547\d{8}$/.test(phone)) {
+    if (!/^254[17]\d{8}$/.test(phone)) {
       return res.status(400).json({ error: "Invalid phone number format" });
     }
+
 
     const booking = await BookedRooms.findById(req.params.id);
     if (!booking || !booking.price) {
